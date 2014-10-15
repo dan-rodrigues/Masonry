@@ -30,6 +30,22 @@
 @property (nonatomic, strong, readonly) MASViewAttribute *mas_centerX;
 @property (nonatomic, strong, readonly) MASViewAttribute *mas_centerY;
 @property (nonatomic, strong, readonly) MASViewAttribute *mas_baseline;
+
+// TODO: shorthand, "include margins ifdef"
+
+#ifdef MAS_MARGIN_CONSTRAINTS
+
+@property (nonatomic, strong, readonly) MASViewAttribute *mas_leftMargin;
+@property (nonatomic, strong, readonly) MASViewAttribute *mas_topMargin;
+@property (nonatomic, strong, readonly) MASViewAttribute *mas_rightMargin;
+@property (nonatomic, strong, readonly) MASViewAttribute *mas_bottomMargin;
+@property (nonatomic, strong, readonly) MASViewAttribute *mas_leadingMargin;
+@property (nonatomic, strong, readonly) MASViewAttribute *mas_trailingMargin;
+@property (nonatomic, strong, readonly) MASViewAttribute *mas_centerXWithinMargins;
+@property (nonatomic, strong, readonly) MASViewAttribute *mas_centerYWithinMargins;
+
+#endif
+
 @property (nonatomic, strong, readonly) MASViewAttribute *(^mas_attribute)(NSLayoutAttribute attr);
 
 /**

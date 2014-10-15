@@ -39,6 +39,12 @@
 
 #endif
 
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8
+
+    #define MAS_MARGIN_CONSTRAINTS
+
+#endif
+
 /**
  *	Allows you to attach keys to objects matching the variable names passed.
  *
