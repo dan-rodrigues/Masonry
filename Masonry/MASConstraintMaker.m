@@ -74,8 +74,16 @@
     return newConstraint;
 }
 
+// TODO: anyAttribute can be rolled into enum definition as a bithack rather than doing it this way
+
 - (MASConstraint *)addConstraintWithAttributes:(MASAttribute)attrs {
     MASAttribute anyAttribute = MASAttributeLeft | MASAttributeRight | MASAttributeTop | MASAttributeBottom | MASAttributeLeading | MASAttributeTrailing | MASAttributeWidth | MASAttributeHeight | MASAttributeCenterX | MASAttributeCenterY | MASAttributeBaseline;
+    
+#ifdef MAS_MARGIN_CONSTRAINTS
+    
+    anyAttribute |= MASAttributeLeftMargin | MASAttributeRightMargin | MASAttributeTopMargin | MASAttributeBottomMargin | MASAttributeLeadingMargin | MASAttributeTrailingMargin | MASAttributeCenterXWithinMargins | MASAttributeCenterYWithinMargins;
+    
+#endif
     
     NSAssert((attrs & anyAttribute) != 0, @"You didn't pass any attribute to make.attributes(...)");
     
@@ -92,6 +100,19 @@
     if (attrs & MASAttributeCenterX) [attributes addObject:self.view.mas_centerX];
     if (attrs & MASAttributeCenterY) [attributes addObject:self.view.mas_centerY];
     if (attrs & MASAttributeBaseline) [attributes addObject:self.view.mas_baseline];
+    
+#ifdef MAS_MARGIN_CONSTRAINTS
+    
+    if (attrs & MASAttributeLeftMargin) [attributes addObject:self.view.mas_leftMargin];
+    if (attrs & MASAttributeRightMargin) [attributes addObject:self.view.mas_rightMargin];
+    if (attrs & MASAttributeTopMargin) [attributes addObject:self.view.mas_topMargin];
+    if (attrs & MASAttributeBottomMargin) [attributes addObject:self.view.mas_bottomMargin];
+    if (attrs & MASAttributeLeadingMargin) [attributes addObject:self.view.mas_leadingMargin];
+    if (attrs & MASAttributeTrailingMargin) [attributes addObject:self.view.mas_trailingMargin];
+    if (attrs & MASAttributeCenterXWithinMargins) [attributes addObject:self.view.mas_centerXWithinMargins];
+    if (attrs & MASAttributeCenterYWithinMargins) [attributes addObject:self.view.mas_centerYWithinMargins];
+    
+#endif
     
     NSMutableArray *children = [NSMutableArray arrayWithCapacity:attributes.count];
     
@@ -154,6 +175,42 @@
 - (MASConstraint *)baseline {
     return [self addConstraintWithLayoutAttribute:NSLayoutAttributeBaseline];
 }
+
+#ifdef MAS_MARGIN_CONSTRAINTS
+
+- (MASConstraint *)leftMargin {
+    return [self addConstraintWithLayoutAttribute:NSLayoutAttributeLeftMargin];
+}
+
+- (MASConstraint *)topMargin {
+    return [self addConstraintWithLayoutAttribute:NSLayoutAttributeTopMargin];
+}
+
+- (MASConstraint *)rightMargin {
+    return [self addConstraintWithLayoutAttribute:NSLayoutAttributeRightMargin];
+}
+
+- (MASConstraint *)bottomMargin {
+    return [self addConstraintWithLayoutAttribute:NSLayoutAttributeBottomMargin];
+}
+
+- (MASConstraint *)leadingMargin {
+    return [self addConstraintWithLayoutAttribute:NSLayoutAttributeLeadingMargin];
+}
+
+- (MASConstraint *)trailingMargin {
+    return [self addConstraintWithLayoutAttribute:NSLayoutAttributeTrailingMargin];
+}
+
+- (MASConstraint *)centerXWithinMargins {
+    return [self addConstraintWithLayoutAttribute:NSLayoutAttributeCenterXWithinMargins];
+}
+
+- (MASConstraint *)centerYWithinMargins {
+    return [self addConstraintWithLayoutAttribute:NSLayoutAttributeCenterYWithinMargins];
+}
+
+#endif
 
 - (MASConstraint *(^)(MASAttribute))attributes {
     return ^(MASAttribute attrs){

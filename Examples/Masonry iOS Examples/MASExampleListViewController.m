@@ -20,6 +20,7 @@
 #import "MASExampleLayoutGuideViewController.h"
 #import "MASExampleArrayView.h"
 #import "MASExampleAttributeChainingView.h"
+#import "MASExampleBasicMarginsView.h"
 
 static NSString * const kMASCellReuseIdentifier = @"kMASCellReuseIdentifier";
 
@@ -60,6 +61,8 @@ static NSString * const kMASCellReuseIdentifier = @"kMASCellReuseIdentifier";
                                               viewClass:MASExampleArrayView.class],
         [[MASExampleViewController alloc] initWithTitle:@"Attribute Chaining"
                                               viewClass:MASExampleAttributeChainingView.class],
+        [[MASExampleViewController alloc] initWithTitle:@"Basic margins"
+                                              viewClass:MASExampleBasicMarginsView.class],
     ];
     
     if ([UIViewController instancesRespondToSelector:@selector(topLayoutGuide)])
