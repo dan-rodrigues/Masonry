@@ -35,10 +35,11 @@
     [self.containerView addSubview:childView];
     
     UILabel *label = UILabel.new;
-    label.text = @"Sample Text";
+    label.text = @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium libero nec sollicitudin fringilla. Donec iaculis, nibh ut malesuada porta, nunc enim laoreet arcu, sed commodo lectus lorem sed massa. Aenean ac felis in tortor dignissim pulvinar eget sit amet ligula. Ut nec congue sem. Morbi vel ante sit amet elit faucibus dapibus. Nulla ipsum purus, ultrices tempor erat vitae, eleifend placerat diam. Proin fermentum sollicitudin felis, et pretium ex auctor vitae. Pellentesque vestibulum, urna dignissim tincidunt convallis, libero nibh pharetra arcu, nec commodo elit neque venenatis dolor. Praesent eu tortor sem. Fusce non arcu vel tortor bibendum imperdiet vitae.";
     label.backgroundColor = [UIColor whiteColor];
     label.textColor = [UIColor blackColor];
     label.font = [UIFont systemFontOfSize:20];
+    label.numberOfLines = 0;
     [childView addSubview:label];
     
     [self.containerView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -56,7 +57,7 @@
     }];
     
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.and.left.equalTo(label.superview).with.margins();
+        make.top.bottom.leading.and.trailing.equalTo(label.superview).with.margins();
         
         // equivalent to:
 //        make.leading.equalTo(label.superview.mas_leftMargin);
@@ -71,55 +72,44 @@
 - (void)setupOffsetButtons {
     self.buttonsDictionary = [NSMutableDictionary dictionary];
     
-    UIButton *button;
+    for (NSNumber *attribute in @[ @(MASAttributeTop), @(MASAttributeLeft),
+                                   @(MASAttributeBottom), @(MASAttributeRight) ])
+    {
+        [self setupButtonWithDelta:10 forAttribute:attribute.integerValue];
+        [self setupButtonWithDelta:-10 forAttribute:attribute.integerValue];
+    }
+}
+
+- (UIButton *)setupButtonWithDelta:(CGFloat)delta forAttribute:(MASAttribute)attribute {
+    BOOL deltaIsPositive = (delta > 0);
     
-    button = [self setupButtonWithDeltaInsets:UIEdgeInsetsMake(0, 10, 0, 0) title:@"+"];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+    button.backgroundColor = [UIColor whiteColor];
+    [button setTitle:(deltaIsPositive ? @"+" : @"-") forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(adjustMargin:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:button];
+    
+    UIEdgeInsets insets;
+    insets.top = (attribute == MASAttributeTop ? delta : 0);
+    insets.left = (attribute == MASAttributeLeft ? delta : 0);
+    insets.bottom = (attribute == MASAttributeBottom ? delta : 0);
+    insets.right = (attribute == MASAttributeRight ? delta : 0);
+
+    MASAttribute centerAttribute = MASAttributeCenterY;
+    if (attribute == MASAttributeTop || attribute == MASAttributeBottom) {
+        centerAttribute = MASAttributeCenterX;
+    }
+    
+    [self.buttonsDictionary addEntriesFromDictionary:@{ [NSValue valueWithNonretainedObject:button]:
+                                                        [NSValue valueWithUIEdgeInsets:insets] }];
+    
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self).with.offset(10);
-        make.centerY.equalTo(self).with.offset(-20);
+        UIEdgeInsets insets = UIEdgeInsetsMake(10, 10, 10, 10);
+        make.attributes(attribute).equalTo(self).with.insets(insets);
+        make.attributes(centerAttribute).equalTo(self).with.offset(deltaIsPositive ? -20 : 20);
     }];
     
-    button = [self setupButtonWithDeltaInsets:UIEdgeInsetsMake(0, -10, 0, 0) title:@"-"];
-    [button mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self).with.offset(10);
-        make.centerY.equalTo(self).with.offset(20);
-    }];
-    
-    button = [self setupButtonWithDeltaInsets:UIEdgeInsetsMake(0, 0, 10, 0) title:@"+"];
-    [button mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self).with.offset(-10);
-        make.centerX.equalTo(self).with.offset(-20);
-    }];
-    
-    button = [self setupButtonWithDeltaInsets:UIEdgeInsetsMake(0, 0, -10, 0) title:@"-"];
-    [button mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self).with.offset(-10);
-        make.centerX.equalTo(self).with.offset(20);
-    }];
-    
-    button = [self setupButtonWithDeltaInsets:UIEdgeInsetsMake(0, 0, 0, 10) title:@"+"];
-    [button mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self).with.offset(-10);
-        make.centerY.equalTo(self).with.offset(-20);
-    }];
-    
-    button = [self setupButtonWithDeltaInsets:UIEdgeInsetsMake(0, 0, 0, -10) title:@"-"];
-    [button mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self).with.offset(-10);
-        make.centerY.equalTo(self).with.offset(20);
-    }];
-    
-    button = [self setupButtonWithDeltaInsets:UIEdgeInsetsMake(10, 0, 0, 0) title:@"+"];
-    [button mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self).with.offset(10);
-        make.centerX.equalTo(self).with.offset(-20);
-    }];
-    
-    button = [self setupButtonWithDeltaInsets:UIEdgeInsetsMake(-10, 0, 0, 0) title:@"-"];
-    [button mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self).with.offset(10);
-        make.centerX.equalTo(self).with.offset(20);
-    }];
+    return button;
 }
 
 - (UIButton *)setupButtonWithDeltaInsets:(UIEdgeInsets)insets title:(NSString *)title {
@@ -148,7 +138,7 @@
 
     self.containerView.layoutMargins = marginInsets;
     
-    NSLog(@"new margins %@", NSStringFromUIEdgeInsets(marginInsets));
+    NSLog(@"new margins: %@", NSStringFromUIEdgeInsets(marginInsets));
 }
 
 @end
