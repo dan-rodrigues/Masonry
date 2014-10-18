@@ -102,6 +102,16 @@
  */
 - (MASConstraint * (^)(id attr))lessThanOrEqualTo;
 
+#ifdef MAS_MARGIN_CONSTRAINTS
+
+/**
+ *  Substitutes the second layout item's view attribute with its margin based equivalent
+ *  i.e. NSLayoutAttributeTop with be substituted with NSLayoutAttributeTopMargin
+ */
+- (MASConstraint * (^)())margins;
+
+#endif
+
 /**
  *	Optional semantic property which has no effect but improves the readability of constraint
  */

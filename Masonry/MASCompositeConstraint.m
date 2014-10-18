@@ -88,6 +88,21 @@
     };
 }
 
+#ifdef MAS_MARGIN_CONSTRAINTS
+
+#pragma mark - Margin constraint substitution
+
+- (MASConstraint * (^)())margins {
+    return ^id {
+        for (MASConstraint *constraint in self.childConstraints) {
+            constraint.margins();
+        }
+        return self;
+    };
+}
+
+#endif
+
 #pragma mark - attribute chaining
 
 - (MASConstraint *)addConstraintWithLayoutAttribute:(NSLayoutAttribute)layoutAttribute {

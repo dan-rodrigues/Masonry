@@ -220,6 +220,12 @@
 
 - (MASConstraint * (^)(id key))key { MASMethodNotImplemented(); }
 
+#ifdef MAS_MARGIN_CONSTRAINTS
+
+- (MASConstraint * (^)())margins { MASMethodNotImplemented(); }
+
+#endif
+
 - (void)setInsets:(MASEdgeInsets __unused)insets { MASMethodNotImplemented(); }
 
 - (void)setSizeOffset:(CGSize __unused)sizeOffset { MASMethodNotImplemented(); }

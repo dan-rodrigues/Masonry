@@ -178,6 +178,38 @@ static char kInstalledConstraintsKey;
     };
 }
 
+#ifdef MAS_MARGIN_CONSTRAINTS
+
+#pragma mark - Margin constraint substitution
+
+- (MASConstraint * (^)())margins {
+    return ^id {
+        NSLayoutAttribute newAttribute = [self marginAttributeForAttribute:self.secondViewAttribute.layoutAttribute];
+        NSAssert(newAttribute != NSLayoutAttributeNotAnAttribute, @"Margin based layout attribute does not exist");
+        
+        self.secondViewAttribute = [[MASViewAttribute alloc] initWithView:self.secondViewAttribute.view
+                                                          layoutAttribute:newAttribute];
+
+        return self;
+    };
+}
+
+- (NSLayoutAttribute)marginAttributeForAttribute:(NSLayoutAttribute)attribute {
+    switch (attribute) {
+        case NSLayoutAttributeTop: return NSLayoutAttributeTopMargin;
+        case NSLayoutAttributeLeft: return NSLayoutAttributeLeftMargin;
+        case NSLayoutAttributeBottom: return NSLayoutAttributeBottomMargin;
+        case NSLayoutAttributeRight: return NSLayoutAttributeRightMargin;
+        case NSLayoutAttributeLeading: return NSLayoutAttributeLeadingMargin;
+        case NSLayoutAttributeTrailing: return NSLayoutAttributeTrailingMargin;
+        case NSLayoutAttributeCenterX: return NSLayoutAttributeCenterXWithinMargins;
+        case NSLayoutAttributeCenterY: return NSLayoutAttributeCenterYWithinMargins;
+        default: return NSLayoutAttributeNotAnAttribute;
+    }
+}
+
+#endif
+
 #pragma mark - Semantic properties
 
 - (MASConstraint *)with {

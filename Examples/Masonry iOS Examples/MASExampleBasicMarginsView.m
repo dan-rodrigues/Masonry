@@ -37,12 +37,14 @@
         make.edges.equalTo(self.containerView.superview);
     }];
 
-    //TODO: some shorthand way of saying .constraintedToMargins(?)
     [childView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.containerView.mas_topMargin);
-        make.left.equalTo(self.containerView.mas_leftMargin);
-        make.bottom.equalTo(self.containerView.mas_bottomMargin);
-        make.right.equalTo(self.containerView.mas_rightMargin);
+        make.edges.equalTo(self.containerView).with.margins();
+        
+        // equivalent to:
+//        make.top.equalTo(self.containerView.mas_topMargin);
+//        make.left.equalTo(self.containerView.mas_leftMargin);
+//        make.bottom.equalTo(self.containerView.mas_bottomMargin);
+//        make.right.equalTo(self.containerView.mas_rightMargin);
     }];
     
     [self setupOffsetButtons];
