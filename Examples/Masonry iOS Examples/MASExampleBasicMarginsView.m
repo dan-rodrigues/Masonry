@@ -75,18 +75,16 @@
     for (NSNumber *attribute in @[ @(MASAttributeTop), @(MASAttributeLeft),
                                    @(MASAttributeBottom), @(MASAttributeRight) ])
     {
-        [self setupButtonWithDelta:10 forAttribute:attribute.integerValue];
-        [self setupButtonWithDelta:-10 forAttribute:attribute.integerValue];
+        [self setupButtonWithDelta:10 attribute:attribute.integerValue];
+        [self setupButtonWithDelta:-10 attribute:attribute.integerValue];
     }
 }
 
-- (UIButton *)setupButtonWithDelta:(CGFloat)delta forAttribute:(MASAttribute)attribute {
-    BOOL deltaIsPositive = (delta > 0);
-    
+- (UIButton *)setupButtonWithDelta:(CGFloat)delta attribute:(MASAttribute)attribute {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
     button.backgroundColor = [UIColor whiteColor];
-    [button setTitle:(deltaIsPositive ? @"+" : @"-") forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(adjustMargin:) forControlEvents:UIControlEventTouchUpInside];
+    [button setTitle:(delta > 0 ? @"+" : @"-") forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(adjustMarginFromButton:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:button];
     
     UIEdgeInsets insets;
@@ -95,9 +93,11 @@
     insets.bottom = (attribute == MASAttributeBottom ? delta : 0);
     insets.right = (attribute == MASAttributeRight ? delta : 0);
 
-    MASAttribute centerAttribute = MASAttributeCenterY;
+    MASAttribute centerAttribute;
     if (attribute == MASAttributeTop || attribute == MASAttributeBottom) {
         centerAttribute = MASAttributeCenterX;
+    } else {
+        centerAttribute = MASAttributeCenterY;
     }
     
     [self.buttonsDictionary addEntriesFromDictionary:@{ [NSValue valueWithNonretainedObject:button]:
@@ -106,27 +106,14 @@
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
         UIEdgeInsets insets = UIEdgeInsetsMake(10, 10, 10, 10);
         make.attributes(attribute).equalTo(self).with.insets(insets);
-        make.attributes(centerAttribute).equalTo(self).with.offset(deltaIsPositive ? -20 : 20);
+        make.attributes(centerAttribute).equalTo(self).with.offset(delta > 0 ? -20 : 20);
     }];
     
     return button;
 }
 
-- (UIButton *)setupButtonWithDeltaInsets:(UIEdgeInsets)insets title:(NSString *)title {
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
-    button.backgroundColor = [UIColor whiteColor];
-    [button setTitle:title forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(adjustMargin:) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:button];
-    
-    [self.buttonsDictionary addEntriesFromDictionary:@{ [NSValue valueWithNonretainedObject:button]:
-                                                        [NSValue valueWithUIEdgeInsets:insets] }];
-    
-    return button;
-}
-
-- (void)adjustMargin:(UIButton *)sender {
-    NSValue *value = self.buttonsDictionary[[NSValue valueWithNonretainedObject:sender]];
+- (void)adjustMarginFromButton:(UIButton *)button {
+    NSValue *value = self.buttonsDictionary[[NSValue valueWithNonretainedObject:button]];
     
     UIEdgeInsets offsetInsets = value.UIEdgeInsetsValue;
     UIEdgeInsets marginInsets = self.containerView.layoutMargins;

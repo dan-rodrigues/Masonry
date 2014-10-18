@@ -31,8 +31,6 @@
 @property (nonatomic, strong, readonly) MASViewAttribute *mas_centerY;
 @property (nonatomic, strong, readonly) MASViewAttribute *mas_baseline;
 
-// TODO: shorthand, "include margins ifdef"
-
 #ifdef MAS_MARGIN_CONSTRAINTS
 
 @property (nonatomic, strong, readonly) MASViewAttribute *mas_leftMargin;
