@@ -137,6 +137,19 @@
 - (MASConstraint *)centerY;
 - (MASConstraint *)baseline;
 
+#ifdef MAS_MARGIN_CONSTRAINTS
+
+- (MASConstraint *)leftMargin;
+- (MASConstraint *)topMargin;
+- (MASConstraint *)rightMargin;
+- (MASConstraint *)bottomMargin;
+- (MASConstraint *)leadingMargin;
+- (MASConstraint *)trailingMargin;
+- (MASConstraint *)centerXWithinMargins;
+- (MASConstraint *)centerYWithinMargins;
+
+#endif
+
 /**
  *	Sets the constraint debug name
  */

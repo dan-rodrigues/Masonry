@@ -208,6 +208,42 @@
     return [self addConstraintWithLayoutAttribute:NSLayoutAttributeBaseline];
 }
 
+#ifdef MAS_MARGIN_CONSTRAINTS
+
+- (MASConstraint *)leftMargin {
+    return [self addConstraintWithLayoutAttribute:NSLayoutAttributeLeftMargin];
+}
+
+- (MASConstraint *)topMargin {
+    return [self addConstraintWithLayoutAttribute:NSLayoutAttributeTopMargin];
+}
+
+- (MASConstraint *)rightMargin {
+    return [self addConstraintWithLayoutAttribute:NSLayoutAttributeRightMargin];
+}
+
+- (MASConstraint *)bottomMargin {
+    return [self addConstraintWithLayoutAttribute:NSLayoutAttributeBottomMargin];
+}
+
+- (MASConstraint *)leadingMargin {
+    return [self addConstraintWithLayoutAttribute:NSLayoutAttributeLeadingMargin];
+}
+
+- (MASConstraint *)trailingMargin {
+    return [self addConstraintWithLayoutAttribute:NSLayoutAttributeTrailingMargin];
+}
+
+- (MASConstraint *)centerXWithinMargins {
+    return [self addConstraintWithLayoutAttribute:NSLayoutAttributeCenterXWithinMargins];
+}
+
+- (MASConstraint *)centerYWithinMargins {
+    return [self addConstraintWithLayoutAttribute:NSLayoutAttributeCenterYWithinMargins];
+}
+
+#endif
+
 #pragma mark - Abstract
 
 - (MASConstraint * (^)(CGFloat multiplier))multipliedBy { MASMethodNotImplemented(); }

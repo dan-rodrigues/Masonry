@@ -31,7 +31,15 @@
     
     UIView *childView = UIView.new;
     childView.backgroundColor = [UIColor lightGrayColor];
+    childView.layoutMargins = UIEdgeInsetsMake(40, 40, 40, 40);
     [self.containerView addSubview:childView];
+    
+    UILabel *label = UILabel.new;
+    label.text = @"Sample Text";
+    label.backgroundColor = [UIColor whiteColor];
+    label.textColor = [UIColor blackColor];
+    label.font = [UIFont systemFontOfSize:20];
+    [childView addSubview:label];
     
     [self.containerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.containerView.superview);
@@ -45,6 +53,14 @@
 //        make.left.equalTo(self.containerView.mas_leftMargin);
 //        make.bottom.equalTo(self.containerView.mas_bottomMargin);
 //        make.right.equalTo(self.containerView.mas_rightMargin);
+    }];
+    
+    [label mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.and.left.equalTo(label.superview).with.margins();
+        
+        // equivalent to:
+//        make.leading.equalTo(label.superview.mas_leftMargin);
+//        make.top.equalTo(label.superview.mas_topMargin);
     }];
     
     [self setupOffsetButtons];
