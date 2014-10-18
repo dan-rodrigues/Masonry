@@ -73,56 +73,56 @@
     
     UIButton *button;
     
-    button = [self setupButtonWithInsets:UIEdgeInsetsMake(0, 10, 0, 0) title:@"+"];
+    button = [self setupButtonWithDeltaInsets:UIEdgeInsetsMake(0, 10, 0, 0) title:@"+"];
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self).with.offset(10);
         make.centerY.equalTo(self).with.offset(-20);
     }];
     
-    button = [self setupButtonWithInsets:UIEdgeInsetsMake(0, -10, 0, 0) title:@"-"];
+    button = [self setupButtonWithDeltaInsets:UIEdgeInsetsMake(0, -10, 0, 0) title:@"-"];
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self).with.offset(10);
         make.centerY.equalTo(self).with.offset(20);
     }];
     
-    button = [self setupButtonWithInsets:UIEdgeInsetsMake(0, 0, 10, 0) title:@"+"];
+    button = [self setupButtonWithDeltaInsets:UIEdgeInsetsMake(0, 0, 10, 0) title:@"+"];
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self).with.offset(-10);
         make.centerX.equalTo(self).with.offset(-20);
     }];
     
-    button = [self setupButtonWithInsets:UIEdgeInsetsMake(0, 0, -10, 0) title:@"-"];
+    button = [self setupButtonWithDeltaInsets:UIEdgeInsetsMake(0, 0, -10, 0) title:@"-"];
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self).with.offset(-10);
         make.centerX.equalTo(self).with.offset(20);
     }];
     
-    button = [self setupButtonWithInsets:UIEdgeInsetsMake(0, 0, 0, 10) title:@"+"];
+    button = [self setupButtonWithDeltaInsets:UIEdgeInsetsMake(0, 0, 0, 10) title:@"+"];
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self).with.offset(-10);
         make.centerY.equalTo(self).with.offset(-20);
     }];
     
-    button = [self setupButtonWithInsets:UIEdgeInsetsMake(0, 0, 0, -10) title:@"-"];
+    button = [self setupButtonWithDeltaInsets:UIEdgeInsetsMake(0, 0, 0, -10) title:@"-"];
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self).with.offset(-10);
         make.centerY.equalTo(self).with.offset(20);
     }];
     
-    button = [self setupButtonWithInsets:UIEdgeInsetsMake(10, 0, 0, 0) title:@"+"];
+    button = [self setupButtonWithDeltaInsets:UIEdgeInsetsMake(10, 0, 0, 0) title:@"+"];
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self).with.offset(10);
         make.centerX.equalTo(self).with.offset(-20);
     }];
     
-    button = [self setupButtonWithInsets:UIEdgeInsetsMake(-10, 0, 0, 0) title:@"-"];
+    button = [self setupButtonWithDeltaInsets:UIEdgeInsetsMake(-10, 0, 0, 0) title:@"-"];
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self).with.offset(10);
         make.centerX.equalTo(self).with.offset(20);
     }];
 }
 
-- (UIButton *)setupButtonWithInsets:(UIEdgeInsets)insets title:(NSString *)title {
+- (UIButton *)setupButtonWithDeltaInsets:(UIEdgeInsets)insets title:(NSString *)title {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
     button.backgroundColor = [UIColor whiteColor];
     [button setTitle:title forState:UIControlStateNormal];

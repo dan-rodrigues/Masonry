@@ -74,8 +74,6 @@
     return newConstraint;
 }
 
-// TODO: anyAttribute can be rolled into enum definition as a bithack rather than doing it this way
-
 - (MASConstraint *)addConstraintWithAttributes:(MASAttribute)attrs {
     MASAttribute anyAttribute = MASAttributeLeft | MASAttributeRight | MASAttributeTop | MASAttributeBottom | MASAttributeLeading | MASAttributeTrailing | MASAttributeWidth | MASAttributeHeight | MASAttributeCenterX | MASAttributeCenterY | MASAttributeBaseline;
     
